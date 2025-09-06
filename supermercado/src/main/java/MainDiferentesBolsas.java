@@ -1,5 +1,6 @@
 import model.*;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 public class MainDiferentesBolsas {
@@ -47,12 +48,11 @@ public class MainDiferentesBolsas {
         imprimirProductos(noPerecible);
     }
 
-//    public static void imprimirProductos(List<? extends Producto> bolsa){
-//        bolsa.forEach(producto -> {
-//            System.out.println(producto.getNombre() + " - Precio: $" + producto.getPrecio());
-//        });
-//    }
-    public static void imprimirProductos(List<? extends Producto> bolsa) {
+    public static void imprimirProductos3(List<? extends Producto> bolsa){
+        bolsa.forEach(System.out::println);
+    }
+
+    public static void imprimirProductos2(List<? extends Producto> bolsa) {
         bolsa.forEach(producto -> {
             System.out.print(producto.getNombre() + " - Precio: $" + producto.getPrecio());
 
@@ -65,6 +65,22 @@ public class MainDiferentesBolsas {
             } else if (producto instanceof NoPerecible) {
                 System.out.println(" - Contenido:" + ((NoPerecible) producto).getContenido() + "kg - Calorías: " + ((NoPerecible) producto).getCalorias() + "cal");
             }
+        });
+    }
+
+    public static void imprimirProductos(List<? extends Producto> bolsa) {
+        bolsa.forEach(producto -> {
+            System.out.print(producto.getNombre() + " - Precio: $" + producto.getPrecio());
+
+            for(Field field : producto.getClass().getDeclaredFields()){
+                field.setAccessible(true);
+                try {
+                    System.out.print(" - " + field.getName() + ": " + field.get(producto));
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            System.out.println();
         });
     }
 }
