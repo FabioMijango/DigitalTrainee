@@ -27,32 +27,23 @@ public class MainDiferentesBolsas {
         System.out.println("\nFrutas:");
         imprimirProductos(frutas);
 
-        BolsaSupermercado<Limpieza> bolsaLimpieza = new BolsaSupermercado<>();
-        bolsaLimpieza.addProducto(new Limpieza("Detergente", 3.5, "Líquido", 4.0));
-        bolsaLimpieza.addProducto(new Limpieza("Jabón", 2.0, "Jabon", 3.0));
-        bolsaLimpieza.addProducto(new Limpieza("Desinfectante", 4.5, "Amoniaco", 5.0));
-        bolsaLimpieza.addProducto(new Limpieza("Limpiador multiusos", 3.0, "Líquido", 4.5));
-        bolsaLimpieza.addProducto(new Limpieza("Suavizante", 2.5, "Jabon", 3.5));
-        List<? extends Producto> limpieza = bolsaLimpieza.getProductos();
-        System.out.println("\nProductos de limpieza:");
-        imprimirProductos(limpieza);
+        System.out.println("\nProducto en la posición 2 de la bolsa de frutas:");
+        Producto producoPorId = bolsaFrutas.porId(2);
+        imprimirProductos(List.of(producoPorId));
 
+        bolsaFrutas.updateProducto(0, new Fruta("Pera", 0.7, 0.22, "Verde"));
+        bolsaFrutas.deleteProducto(3);
 
-        BolsaSupermercado<NoPerecible> bolsaNoPerecible = new BolsaSupermercado<>();
-        bolsaNoPerecible.addProducto(new NoPerecible("Arroz", 1.5, 1, 365));
-        bolsaNoPerecible.addProducto(new NoPerecible("Pasta", 1.0, 1, 180));
-        bolsaNoPerecible.addProducto(new NoPerecible("Miel", 5.0, 15, 730));
-        bolsaNoPerecible.addProducto(new NoPerecible("Conservas", 2.5, 5, 540));
-        List<? extends Producto> noPerecible = bolsaNoPerecible.getProductos();
-        System.out.println("\nProductos no perecibles:");
-        imprimirProductos(noPerecible);
+        System.out.println("\nFrutas después de actualizar y eliminar:");
+        imprimirProductos(bolsaFrutas.getProductos());
     }
 
-    public static void imprimirProductos3(List<? extends Producto> bolsa){
+/*
+    public static void imprimirProductos(List<? extends Producto> bolsa){
         bolsa.forEach(System.out::println);
     }
 
-    public static void imprimirProductos2(List<? extends Producto> bolsa) {
+    public static void imprimirProductos(List<? extends Producto> bolsa) {
         bolsa.forEach(producto -> {
             System.out.print(producto.getNombre() + " - Precio: $" + producto.getPrecio());
 
@@ -67,6 +58,7 @@ public class MainDiferentesBolsas {
             }
         });
     }
+ */
 
     public static void imprimirProductos(List<? extends Producto> bolsa) {
         bolsa.forEach(producto -> {

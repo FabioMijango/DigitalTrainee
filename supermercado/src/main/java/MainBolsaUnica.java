@@ -1,5 +1,6 @@
 import model.*;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 public class MainBolsaUnica {
@@ -16,26 +17,31 @@ public class MainBolsaUnica {
         List<Producto> productos = bolsa.getProductos();
         System.out.println("Productos en la bolsa:");
         imprimirProductos(productos);
+
+        Producto productoPorId = bolsa.porId(2);
+        System.out.println("\nProducto en la posición 2:");
+        imprimirProductos(List.of(productoPorId));
+
+        bolsa.updateProducto(2, new Fruta("Fresa", 0.8, 0.1, "Roja"));
+        bolsa.deleteProducto(1);
+
+        System.out.println("\nProductos en la bolsa después de actualizar y eliminar:");
+        imprimirProductos(bolsa.getProductos());
     }
-//    public static void imprimirProductos(List<? extends Producto> bolsa){
-//        bolsa.forEach(producto -> {
-//            System.out.println(producto.getNombre() + " - Precio: $" + producto.getPrecio());
-//        });
-//    }
 
     public static void imprimirProductos(List<? extends Producto> bolsa) {
         bolsa.forEach(producto -> {
             System.out.print(producto.getNombre() + " - Precio: $" + producto.getPrecio());
 
-            if(producto instanceof Lacteo){
-                System.out.println(" - Cantidad:" + ((Lacteo) producto).getCantidad() + "ml - Proteinas: " + ((Lacteo) producto).getProteinas() + "g");
-            } else if (producto instanceof Fruta) {
-                System.out.println(" - Peso:" + ((Fruta) producto).getPeso() + "kg - Color: " + ((Fruta) producto).getColor());
-            } else if (producto instanceof Limpieza) {
-                System.out.println(" - Componente:" + ((Limpieza) producto).getComponentes() + " - Litros: " + ((Limpieza) producto).getLitros() + "L");
-            } else if (producto instanceof NoPerecible) {
-                System.out.println(" - Contenido:" + ((NoPerecible) producto).getContenido() + "kg - Calorías: " + ((NoPerecible) producto).getCalorias() + "cal");
+            for(Field field : producto.getClass().getDeclaredFields()){
+                field.setAccessible(true);
+                try {
+                    System.out.print(" - " + field.getName() + ": " + field.get(producto));
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
             }
+            System.out.println();
         });
     }
 }
