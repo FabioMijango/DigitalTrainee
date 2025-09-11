@@ -25,10 +25,10 @@ replay_pid*
 
 
 ### IntelliJ IDEA ###
-*.idea/jarRepositories.xml
-*.idea/modules.xml
-*.idea/compiler.xml
-*.idea/libraries/
-*.iws
-*.iml
-*.ipr
+**.idea/jarRepositories.xml
+**.idea/modules.xml
+**.idea/compiler.xml
+**.idea/libraries/
+**.iws
+**.iml
+**.ipr
